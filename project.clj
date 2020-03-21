@@ -37,14 +37,14 @@
                  [selmer "1.12.18"]]
 
   :min-lein-version "2.0.0"
-  
+
   :source-paths ["src/clj" "src/cljs" "src/cljc"]
   :test-paths ["test/clj"]
   :resource-paths ["resources" "target/cljsbuild"]
   :target-path "target/%s/"
   :main ^:skip-aot shipping-cljs.core
 
-  :plugins [[lein-cljsbuild "1.1.7"]] 
+  :plugins [[lein-cljsbuild "1.1.7"] [lein-asset-minifier "0.4.6"]]
   :clean-targets ^{:protect false}
   [:target-path [:cljsbuild :builds :app :compiler :output-dir] [:cljsbuild :builds :app :compiler :output-to]]
   :figwheel
@@ -53,11 +53,13 @@
    :nrepl-port 7002
    :css-dirs ["resources/public/css"]
    :nrepl-middleware [cider.piggieback/wrap-cljs-repl]}
-  
+
 
   :profiles
   {:uberjar {:omit-source true
-             :prep-tasks ["compile" ["cljsbuild" "once" "min"]]
+             :prep-tasks ["compile" ["cljsbuild" "once" "min"] "minify-assets"]
+             :minify-assets [[:js {:source ["target/cljsbuild/public/js/app.js"]
+                                   :target "target/cljsbuild/public/js/app.min.js"}]]
              :cljsbuild{:builds
               {:min
                {:source-paths ["src/cljc" "src/cljs" "env/prod/cljs"]
@@ -71,7 +73,7 @@
                  :closure-warnings
                  {:externs-validation :off :non-standard-jsdoc :off}
                  :externs ["react/externs/react.js"]}}}}
-             
+
              :aot :all
              :uberjar-name "shipping-cljs.jar"
              :source-paths ["env/prod/clj" ]
@@ -93,7 +95,7 @@
                   :plugins      [[com.jakemccrary/lein-test-refresh "0.24.1"]
                                  [jonase/eastwood "0.3.5"]
                                  [lein-doo "0.1.11"]
-                                 [lein-figwheel "0.5.19"]] 
+                                 [lein-figwheel "0.5.19"]]
                   :cljsbuild{:builds
                    {:app
                     {:source-paths ["src/cljs" "src/cljc" "env/dev/cljs"]
@@ -108,8 +110,8 @@
                       :source-map true
                       :main "shipping-cljs.app"
                       :pretty-print true}}}}
-                  
-                  
+
+
                   :doo {:build "test"}
                   :source-paths ["env/dev/clj" ]
                   :resource-paths ["env/dev/resources"]
@@ -118,8 +120,8 @@
                   :injections [(require 'pjstadig.humane-test-output)
                                (pjstadig.humane-test-output/activate!)]}
    :project/test {:jvm-opts ["-Dconf=test-config.edn" ]
-                  :resource-paths ["env/test/resources"] 
-                  :cljsbuild 
+                  :resource-paths ["env/test/resources"]
+                  :cljsbuild
                   {:builds
                    {:test
                     {:source-paths ["src/cljc" "src/cljs" "test/cljs"]
@@ -128,7 +130,7 @@
                       :main "shipping-cljs.doo-runner"
                       :optimizations :whitespace
                       :pretty-print true}}}}
-                  
+
                   }
    :profiles/dev {}
    :profiles/test {}})
