@@ -6,7 +6,7 @@
       <title>Welcome to shipping-cljs</title>
   </head>
   <body>
-    
+
     <div id="app">
       <section class="section">
         <div class="container is-fluid">
@@ -36,6 +36,7 @@
     <script type="text/javascript">
         var csrfToken = "{{csrf-token}}";
     </script>
+    {% script "/js/cljs_base.min.js" %}
     {% script "/js/app.min.js" %}
   </body>
 </html>

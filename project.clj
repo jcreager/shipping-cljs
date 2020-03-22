@@ -58,15 +58,19 @@
   :profiles
   {:uberjar {:omit-source true
              :prep-tasks ["compile" ["cljsbuild" "once" "min"] "minify-assets"]
-             :minify-assets [[:js {:source ["target/cljsbuild/public/js/app.js"]
+             :minify-assets [[:js {:source ["target/cljsbuild/public/js/cljs_base.js"]
+                                   :target "target/cljsbuild/public/js/cljs_base.min.js"}]
+                             [:js {:source ["target/cljsbuild/public/js/app.js"]
                                    :target "target/cljsbuild/public/js/app.min.js"}]]
              :cljsbuild{:builds
               {:min
                {:source-paths ["src/cljc" "src/cljs" "env/prod/cljs"]
                 :compiler
                 {:output-dir "target/cljsbuild/public/js"
-                 :output-to "target/cljsbuild/public/js/app.js"
-                 :source-map "target/cljsbuild/public/js/app.js.map"
+                 :modules {:app
+                           {:output-to "target/cljsbuild/public/js/app.js"
+                            :entries #{"shipping-cljs.app"}}}
+                 :source-map true
                  :optimizations :advanced
                  :pretty-print false
                  :infer-externs true
