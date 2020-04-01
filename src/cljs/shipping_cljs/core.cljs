@@ -22,6 +22,16 @@
   (fn [db _]
     (:docs db)))
 
+(rf/reg-event-db
+ :install-prompt
+ (fn [db [_ prompt]]
+   (assoc db :install-prompt prompt)))
+
+(rf/reg-sub
+ :install-prompt
+ (fn [db _]
+   (:install-prompt db)))
+
 (kf/reg-chain
   ::load-home-page
   (fn [_ _]
@@ -31,7 +41,6 @@
                   :on-failure      [:common/set-error]}})
   (fn [{:keys [db]} [_ docs]]
     {:db (assoc db :docs docs)}))
-
 
 (kf/reg-controller
   ::home-controller
@@ -50,6 +59,13 @@
                 :initial-db     {}
                 :root-component [view/root-component]})))
 
+(defn install-prompt-listener []
+  (js/window.addEventListener "beforeinstallprompt" (fn [e]
+                                                       (do (js/console.log "hi")
+                                                           (.preventDefault e)
+                                                           (rf/dispatch [:install-prompt e])))))
+
 (defn init! [debug?]
+  (install-prompt-listener)
   (ajax/load-interceptors!)
   (mount-components debug?))

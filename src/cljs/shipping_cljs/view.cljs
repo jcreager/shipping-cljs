@@ -33,6 +33,8 @@
 
 (defn home-page []
   [:section.section>div.container>div.content
+   (when-let [prompt @(rf/subscribe [:install-prompt])]
+     [:button.button.is-primary {:on-click #(.prompt prompt)} "Download App"])
    (when-let [docs @(rf/subscribe [:docs])]
      [:div {:dangerouslySetInnerHTML {:__html (md->html docs)}}])])
 
