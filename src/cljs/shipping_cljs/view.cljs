@@ -25,7 +25,9 @@
       {:class (when @expanded? :is-active)}
       [:div.navbar-start
        [nav-link "Home" :home]
-       [nav-link "About" :about]]]]))
+       [nav-link "About" :about]
+       (when-let [prompt @(rf/subscribe [:install-prompt])]
+         [:div.navbar-item>button.button.is-primary {:on-click #(.prompt prompt)} "Download App"])]]]))
 
 (defn about-page []
   [:section.section>div.container>div.content
@@ -33,8 +35,7 @@
 
 (defn home-page []
   [:section.section>div.container>div.content
-   (when-let [prompt @(rf/subscribe [:install-prompt])]
-     [:button.button.is-primary {:on-click #(.prompt prompt)} "Download App"])
+
    (when-let [docs @(rf/subscribe [:docs])]
      [:div {:dangerouslySetInnerHTML {:__html (md->html docs)}}])])
 
