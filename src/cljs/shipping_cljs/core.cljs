@@ -60,10 +60,12 @@
                 :root-component [view/root-component]})))
 
 (defn install-prompt-listener []
-  (js/window.addEventListener "beforeinstallprompt" (fn [e]
-                                                       (do (js/console.log "hi")
-                                                           (.preventDefault e)
-                                                           (rf/dispatch [:install-prompt e])))))
+  (js/window.addEventListener
+   "beforeinstallprompt"
+   (fn [e]
+     (do (js/console.log "hi")
+         (.preventDefault e)
+         (rf/dispatch [:install-prompt e])))))
 
 (defn init! [debug?]
   (install-prompt-listener)
