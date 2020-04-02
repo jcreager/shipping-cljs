@@ -3,7 +3,8 @@
     [kee-frame.core :as kf]
     [markdown.core :refer [md->html]]
     [reagent.core :as r]
-    [re-frame.core :as rf]))
+    [re-frame.core :as rf]
+    [shipping-cljs.core :refer [is-standalone?]]))
 
 (defn nav-link [title page]
   [:a.navbar-item
@@ -12,7 +13,8 @@
    title])
 
 (defn navbar []
-  (r/with-let [expanded? (r/atom false)]
+  (r/with-let [expanded? (r/atom false)
+               installed? (rf/subscribe [:installed])]
     [:nav.navbar.is-info>div.container
      [:div.navbar-brand
       [:a.navbar-item {:href "/" :style {:font-weight :bold}} "shipping-cljs"]
@@ -25,7 +27,18 @@
       {:class (when @expanded? :is-active)}
       [:div.navbar-start
        [nav-link "Home" :home]
-       [nav-link "About" :about]]]]))
+       [nav-link "About" :about]
+       (when-let [prompt @(rf/subscribe [:install-prompt])]
+         (if-not (or (is-standalone?) @installed?)
+           [:div.navbar-item>button.button.is-primary
+            {:on-click
+             (fn []
+               (do (.prompt prompt)
+                  (rf/dispatch [:installed true])
+                  (-> (.-userChoice prompt)
+                      (.then (fn [choice]
+                               (if-not (= (.-outcome choice) "accepted")
+                                 (rf/dispatch [:installed false])))))))} "Download App"]))]]]))
 
 (defn about-page []
   [:section.section>div.container>div.content
