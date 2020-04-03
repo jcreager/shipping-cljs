@@ -16,6 +16,32 @@ To start a web server for the application, run:
 
     lein run 
 
+## Electron Dev
+
+Start the server
+
+```
+lein repl
+```
+
+Start figwheel
+
+```
+lein figwheel
+```
+
+Build the electron entrypoint.
+
+```
+lein cljsbuild once electron
+```
+
+Start electron
+
+```
+electron .
+```
+
 ## License
 
 Copyright © 2020 FIXME
