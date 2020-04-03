@@ -102,8 +102,8 @@
                                  [lein-doo "0.1.11"]
                                  [lein-figwheel "0.5.19"]]
                   :cljsbuild{:builds
-                   {:app
-                    {:source-paths ["src/cljs" "src/cljc" "env/dev/cljs"]
+                   [{:id "app"
+                     :source-paths ["src/cljs/shipping_cljs" "src/cljc" "env/dev/cljs"]
                      :figwheel {:on-jsload "shipping-cljs.core/mount-components"}
                      :compiler
                      {:output-dir "target/cljsbuild/public/js/out"
@@ -114,7 +114,15 @@
                       :asset-path "/js/out"
                       :source-map true
                       :main "shipping-cljs.app"
-                      :pretty-print true}}}}
+                      :pretty-print true}}
+                    {:id "electron"
+                     :source-paths ["src/cljs/electron"]
+                     :compiler
+                     {:output-to "target/cljsbuild/public/js/e-out/electron.js"
+                      :output-dir "target/cljsbuild/public/js/e-out"
+                      :optimizations :simple
+                      :pretty-print true
+                      :cache-analysis true}}]}
 
 
                   :doo {:build "test"}
