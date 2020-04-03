@@ -92,9 +92,6 @@
      (do (.preventDefault e)
          (rf/dispatch [:install-prompt e])))))
 
-(defn is-standalone? []
-  (or (.-standalone js/navigator) (.-matches (js/matchMedia "(display-mode: standalone"))))
-
 (defn init! [debug?]
   (rf/dispatch-sync [:installed false])
   (register-service-worker)

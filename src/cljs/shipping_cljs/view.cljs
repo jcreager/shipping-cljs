@@ -3,8 +3,10 @@
     [kee-frame.core :as kf]
     [markdown.core :refer [md->html]]
     [reagent.core :as r]
-    [re-frame.core :as rf]
-    [shipping-cljs.core :refer [is-standalone?]]))
+    [re-frame.core :as rf]))
+
+(defn is-standalone? []
+  (or (.-standalone js/navigator) (.-matches (js/matchMedia "(display-mode: standalone"))))
 
 (defn nav-link [title page]
   [:a.navbar-item
