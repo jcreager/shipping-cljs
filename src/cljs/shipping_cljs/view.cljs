@@ -48,6 +48,8 @@
 
 (defn home-page []
   [:section.section>div.container>div.content
+   (if (and js/process js/process.versions js/process.versions.electron)
+     [:h1 "hello from electron"])
    (when-let [docs @(rf/subscribe [:docs])]
      [:div {:dangerouslySetInnerHTML {:__html (md->html docs)}}])])
 

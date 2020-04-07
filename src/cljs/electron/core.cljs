@@ -12,7 +12,7 @@
                         (clj->js {:width 800
                                   :height 600
                                   :webPreferences {:nodeIntegration true}})))
-  ; Path is relative to the compiled js file (main.js in our case)
+
   (.loadURL ^js/electron.BrowserWindow @main-window "http://localhost:3000")
   (.on ^js/electron.BrowserWindow @main-window "closed" #(reset! main-window nil)))
 

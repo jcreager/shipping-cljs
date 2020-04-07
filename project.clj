@@ -65,7 +65,7 @@
                                    :target "target/cljsbuild/public/js/app.min.js"}]]
              :cljsbuild{:builds
               {:min
-               {:source-paths ["src/cljc" "src/cljs" "env/prod/cljs"]
+               {:source-paths ["src/cljc" "src/cljs/shipping-cljs" "env/prod/cljs"]
                 :compiler
                 {:output-dir "target/cljsbuild/public/js"
                  :modules {:app
