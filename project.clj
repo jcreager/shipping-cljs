@@ -51,14 +51,6 @@
   :aliases {"fig" ["trampoline" "run" "-m" "figwheel.main"]
             "build-dev" ["trampoline" "run" "-m" "figwheel.main" "-b" "fig" "-r"]}
 
-  :figwheel
-  {:http-server-root "public"
-   :server-logfile "log/figwheel-logfile.log"
-   :nrepl-port 7002
-   :css-dirs ["resources/public/css"]
-   :nrepl-middleware [cider.piggieback/wrap-cljs-repl]}
-
-
   :profiles
   {:uberjar {:omit-source true
              :prep-tasks ["compile" ["cljsbuild" "once" "min"] "minify-assets"]
@@ -93,7 +85,6 @@
    :project/dev  {:jvm-opts ["-Dconf=dev-config.edn" ]
                   :dependencies [[com.bhauman/figwheel-main "0.2.4-SNAPSHOT"]
                                  [com.bhauman/rebel-readline-cljs "0.1.4"]
-
                                  [binaryage/devtools "1.0.0"]
                                  [cider/piggieback "0.4.2"]
                                  [doo "0.1.11"]
@@ -106,20 +97,7 @@
                                  [jonase/eastwood "0.3.5"]
                                  [lein-doo "0.1.11"]]
                   :cljsbuild{:builds
-                   [{:id "app"
-                     :source-paths ["src/cljs/shipping_cljs" "src/cljc" "env/dev/cljs"]
-                     :figwheel {:on-jsload "shipping-cljs.core/mount-components"}
-                     :compiler
-                     {:output-dir "target/cljsbuild/public/js/out"
-                      :closure-defines {"re_frame.trace.trace_enabled_QMARK_" true}
-                      :optimizations :none
-                      :preloads [re-frisk.preload]
-                      :output-to "target/cljsbuild/public/js/app.js"
-                      :asset-path "/js/out"
-                      :source-map true
-                      :main "shipping-cljs.app"
-                      :pretty-print true}}
-                    {:id "electron"
+                   [{:id "electron"
                      :source-paths ["src/cljs/electron"]
                      :compiler
                      {:output-to "target/cljsbuild/public/js/e-out/electron.js"
@@ -127,8 +105,6 @@
                       :optimizations :simple
                       :pretty-print true
                       :cache-analysis true}}]}
-
-
                   :doo {:build "test"}
                   :source-paths ["env/dev/clj" ]
                   :resource-paths ["env/dev/resources"]
