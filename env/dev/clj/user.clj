@@ -6,7 +6,7 @@
     [clojure.spec.alpha :as s]
     [expound.alpha :as expound]
     [mount.core :as mount]
-    [shipping-cljs.figwheel :refer [start-fw stop-fw cljs]]
+
     [shipping-cljs.core :refer [start-app]]))
 
 (alter-var-root #'s/*explain-out* (constantly expound/printer))
@@ -29,5 +29,3 @@
   []
   (stop)
   (start))
-
-

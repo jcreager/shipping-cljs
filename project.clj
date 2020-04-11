@@ -48,6 +48,9 @@
   :plugins [[lein-cljsbuild "1.1.7"] [lein-asset-minifier "0.4.6"]]
   :clean-targets ^{:protect false}
   [:target-path [:cljsbuild :builds :app :compiler :output-dir] [:cljsbuild :builds :app :compiler :output-to]]
+  :aliases {"fig" ["trampoline" "run" "-m" "figwheel.main"]
+            "build-dev" ["trampoline" "run" "-m" "figwheel.main" "-b" "fig" "-r"]}
+
   :figwheel
   {:http-server-root "public"
    :server-logfile "log/figwheel-logfile.log"
@@ -88,10 +91,12 @@
    :test          [:project/dev :project/test :profiles/test]
 
    :project/dev  {:jvm-opts ["-Dconf=dev-config.edn" ]
-                  :dependencies [[binaryage/devtools "1.0.0"]
+                  :dependencies [[com.bhauman/figwheel-main "0.2.4-SNAPSHOT"]
+                                 [com.bhauman/rebel-readline-cljs "0.1.4"]
+
+                                 [binaryage/devtools "1.0.0"]
                                  [cider/piggieback "0.4.2"]
                                  [doo "0.1.11"]
-                                 [figwheel-sidecar "0.5.19"]
                                  [pjstadig/humane-test-output "0.10.0"]
                                  [prone "2020-01-17"]
                                  [re-frisk "0.5.4.1"]
@@ -99,8 +104,7 @@
                                  [ring/ring-mock "0.4.0"]]
                   :plugins      [[com.jakemccrary/lein-test-refresh "0.24.1"]
                                  [jonase/eastwood "0.3.5"]
-                                 [lein-doo "0.1.11"]
-                                 [lein-figwheel "0.5.19"]]
+                                 [lein-doo "0.1.11"]]
                   :cljsbuild{:builds
                    [{:id "app"
                      :source-paths ["src/cljs/shipping_cljs" "src/cljc" "env/dev/cljs"]

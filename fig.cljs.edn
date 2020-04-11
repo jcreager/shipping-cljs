@@ -1,0 +1,8 @@
+^{:watch-dirs ["src/cljs" "env/dev/cljs"]
+  :open-url "http://localhost:3000"
+  :target-dir "target/cljsbuild"
+  :figwheel-core true
+  :hot-reload-cljs true}
+{:output-dir "target/cljsbuild/public/js"
+ :modules {:app {:output-to "target/cljsbuild/public/js/app.js"
+                 :entries #{shipping-cljs.app}}}}
