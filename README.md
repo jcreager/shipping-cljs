@@ -1,8 +1,8 @@
 # shipping-cljs
 
-generated using Luminus version "3.62"
+This is the source repo for [https://joecreager.com/packing-and-shipping-cljs/](https://joecreager.com/packing-and-shipping-cljs/).  Please read this article for the complete context of the utility of this repo.
 
-FIXME
+generated using Luminus version "3.62"
 
 ## Prerequisites
 
@@ -12,10 +12,22 @@ You will need [Leiningen][1] 2.0 or above installed.
 
 ## Running
 
-To start a web server for the application, run:
+```
+lein repl
+```
 
-    lein run 
+```
+lein figwheel
+```
+
+## Building
+
+```
+lein uberjar
+```
 
 ## License
 
-Copyright © 2020 FIXME
+MIT
+
+Copyright © Joe Creager 2020
